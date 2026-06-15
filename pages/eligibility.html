@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Executive MBA Eligibility Checker 2026 | Am I Eligible? | execmba.in</title>
+<meta name="description" content="Check your eligibility for executive MBA programs in India — IIM, IIT, XLRI, ISB and online MBA. Enter your work experience and get matched programs instantly.">
+<link rel="canonical" href="https://execmba.in/pages/eligibility.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/style.css">
+<style>
+.checker-wrap{max-width:860px;margin:0 auto;padding:60px 5%;}
+.checker-card{background:var(--white);border-radius:var(--radius-lg);border:1.5px solid var(--border);padding:2.5rem;margin-bottom:2rem;}
+.checker-card h2{font-family:var(--font-display);font-size:1.5rem;color:var(--navy);margin-bottom:0.5rem;}
+.checker-card p{font-size:0.875rem;color:var(--text-muted);margin-bottom:1.75rem;line-height:1.7;}
+.elig-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.results-wrap{display:none;}
+.result-card{border:1.5px solid var(--border);border-radius:var(--radius);padding:1.5rem;margin-bottom:1rem;transition:all 0.2s;}
+.result-card.match{border-color:rgba(29,122,95,0.4);background:rgba(29,122,95,0.03);}
+.result-card.partial{border-color:rgba(201,168,76,0.4);background:var(--gold-pale);}
+.result-card.no-match{border-color:var(--border);background:var(--cream);opacity:0.6;}
+.rc-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:0.75rem;}
+.rc-name{font-size:1rem;font-weight:700;color:var(--navy);}
+.rc-badge{font-size:0.72rem;font-weight:700;padding:0.25rem 0.75rem;border-radius:12px;}
+.rc-badge.eligible{background:rgba(29,122,95,0.12);color:var(--success);}
+.rc-badge.check{background:var(--gold-pale);color:#7A5C10;}
+.rc-badge.ineligible{background:rgba(90,100,117,0.1);color:var(--text-muted);}
+.rc-inst{font-size:0.8rem;color:var(--text-muted);margin-bottom:0.75rem;}
+.rc-details{display:flex;gap:1.5rem;margin-bottom:1rem;}
+.rc-detail .l{font-size:0.68rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);margin-bottom:0.2rem;font-weight:600;}
+.rc-detail .v{font-size:0.875rem;font-weight:600;color:var(--navy);}
+.rc-note{font-size:0.8rem;color:var(--text-muted);line-height:1.6;padding-top:0.75rem;border-top:1px solid var(--border);}
+.elig-table-wrap{overflow-x:auto;margin-top:2rem;}
+.elig-table{width:100%;border-collapse:collapse;font-size:0.82rem;}
+.elig-table th{background:var(--navy);color:var(--white);padding:0.75rem 1rem;text-align:left;font-weight:600;}
+.elig-table td{padding:0.75rem 1rem;border-bottom:1px solid var(--border);}
+.elig-table tr:nth-child(even) td{background:var(--cream);}
+@media(max-width:600px){.elig-form-grid{grid-template-columns:1fr;}.rc-details{flex-wrap:wrap;gap:1rem;}}
+</style>
+</head>
+<body>
+<nav class="site-nav">
+  <a href="/" class="nav-logo">exec<span>mba</span>.in</a>
+  <ul class="nav-links">
+    <li><a href="/pages/programs.html">Programs</a></li>
+    <li><a href="/pages/universities.html">Universities</a></li>
+    <li><a href="/pages/compare.html">Compare</a></li>
+    <li><a href="/pages/eligibility.html" class="active">Eligibility</a></li>
+    <li><a href="/pages/guide.html">MBA Guide</a></li>
+    <li><a href="/blog/">Blog</a></li>
+  </ul>
+  <a href="/pages/apply.html" class="nav-cta">Free counselling</a>
+  <button class="nav-hamburger" aria-label="Open menu">☰</button>
+</nav>
+
+<div class="page-hero center">
+  <div class="eyebrow">Eligibility checker</div>
+  <h1 class="page-title">Am I eligible for an executive MBA?</h1>
+  <p class="page-sub">Enter your profile below — we'll match you to the programs you qualify for across IIM, IIT, XLRI, ISB and online MBA.</p>
+</div>
+
+<div class="checker-wrap">
+  <div class="checker-card">
+    <h2>Check your eligibility</h2>
+    <p>Answer 4 quick questions to see which programs match your profile. Takes under 60 seconds.</p>
+    <form onsubmit="checkEligibility(event)">
+      <div class="elig-form-grid">
+        <div class="form-group">
+          <label>Years of full-time work experience *</label>
+          <select id="elig-exp" required>
+            <option value="">Select</option>
+            <option value="1">Less than 3 years</option>
+            <option value="3">3–4 years</option>
+            <option value="5">5–6 years</option>
+            <option value="7">7–9 years</option>
+            <option value="10">10–14 years</option>
+            <option value="15">15+ years</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Highest qualification *</label>
+          <select id="elig-edu" required>
+            <option value="">Select</option>
+            <option value="grad">Graduate degree (any stream)</option>
+            <option value="pg">Postgraduate degree / MBA</option>
+            <option value="ca">CA / CMA / CS</option>
+            <option value="other">Diploma / other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Current employment status</label>
+          <select id="elig-emp">
+            <option value="employed">Currently employed full-time</option>
+            <option value="self">Self-employed / entrepreneur</option>
+            <option value="not">Not currently employed</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Primary goal</label>
+          <select id="elig-goal">
+            <option value="promote">Get promoted / reach leadership</option>
+            <option value="switch">Switch industry or function</option>
+            <option value="cxo">Move to CXO level</option>
+            <option value="credential">Add a top institution credential</option>
+            <option value="network">Build senior peer network</option>
+          </select>
+        </div>
+      </div>
+      <button type="submit" class="form-submit" style="margin-top:0.5rem">Show my matched programs →</button>
+    </form>
+  </div>
+
+  <div class="results-wrap" id="elig-results">
+    <h2 style="font-family:var(--font-display);font-size:1.4rem;color:var(--navy);margin-bottom:1.25rem;" id="results-headline">Your matched programs</h2>
+    <div id="results-list"></div>
+    <div class="inline-cta" style="margin-top:2rem">
+      <h3>Want expert advice on the right fit?</h3>
+      <p>A free advisor call takes 20 minutes and gives you a clear recommendation based on your full profile.</p>
+      <a href="/pages/apply.html" class="btn btn-gold">Get free guidance →</a>
+    </div>
+  </div>
+
+  <div class="checker-card" style="margin-top:2.5rem">
+    <h2>Eligibility at a glance — all institutions</h2>
+    <p>Quick reference table for minimum eligibility requirements across India's top executive MBA programs.</p>
+    <div class="elig-table-wrap">
+      <table class="elig-table">
+        <thead><tr><th>Institution</th><th>Program</th><th>Min. experience</th><th>Qualification</th><th>Entrance exam</th><th>Approx. fee</th></tr></thead>
+        <tbody>
+          <tr><td>IIM Ahmedabad</td><td>Senior Management Programme</td><td>10 years</td><td>Any graduate</td><td>Profile + interview</td><td>₹9.5L</td></tr>
+          <tr><td>IIM Bangalore</td><td>General Management Programme</td><td>8 years</td><td>Any graduate</td><td>Profile review</td><td>₹8.2L</td></tr>
+          <tr><td>IIM Calcutta</td><td>EPBM</td><td>7 years</td><td>Any graduate</td><td>Profile + written test</td><td>₹7.8L</td></tr>
+          <tr><td>IIM Kozhikode</td><td>Executive MBA</td><td>5 years</td><td>Any graduate</td><td>Profile review</td><td>₹6.5L</td></tr>
+          <tr><td>IIM Lucknow</td><td>Executive Management Programme</td><td>7 years</td><td>Any graduate</td><td>Profile + interview</td><td>~₹6L</td></tr>
+          <tr><td>IIM Indore</td><td>EPGP (full-time)</td><td>5 years</td><td>Any graduate</td><td>CAT / GMAT / profile</td><td>~₹19L</td></tr>
+          <tr><td>IIT Bombay</td><td>Exec. Technology Management</td><td>3 years</td><td>Any graduate</td><td>Profile review</td><td>₹5.5L</td></tr>
+          <tr><td>IIT Delhi</td><td>Executive MBA (DMS)</td><td>3 years</td><td>Any graduate</td><td>Written test + interview</td><td>~₹8L</td></tr>
+          <tr><td>IIT Madras</td><td>Executive MBA (DoMS)</td><td>3 years</td><td>Any graduate</td><td>Written test + interview</td><td>~₹9L</td></tr>
+          <tr><td>XLRI</td><td>EMBA-BM / EMBA-HRM</td><td>5 years</td><td>Any graduate</td><td>XAT / GMAT / profile</td><td>~₹9L</td></tr>
+          <tr><td>ISB</td><td>PGP</td><td>2 years</td><td>Any graduate</td><td>GMAT / GRE required</td><td>~₹37L</td></tr>
+          <tr><td>ISB</td><td>CXO Programme</td><td>10 years</td><td>Any graduate</td><td>Profile review</td><td>~₹5.5L</td></tr>
+          <tr><td>SPJIMR</td><td>PGPM</td><td>5 years</td><td>Any graduate</td><td>Profile + interview</td><td>~₹10L</td></tr>
+          <tr><td>MDI Gurgaon</td><td>NMP</td><td>5 years</td><td>Any graduate</td><td>Profile + interview</td><td>~₹7L</td></tr>
+          <tr><td>Online MBA</td><td>MBA — Finance / HR / Marketing</td><td>3 years</td><td>Any graduate</td><td>None</td><td>₹2.5L–₹3L</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="footer-top">
+    <div class="footer-brand"><div class="footer-logo">execmba.in</div><p>India's most complete independent guide to Executive MBA programs.</p></div>
+    <div class="footer-col"><div class="footer-col-title">Programs</div><ul><li><a href="/pages/programs.html">All programs</a></li><li><a href="/pages/programs.html#iim">IIM</a></li><li><a href="/pages/programs.html#iit">IIT</a></li><li><a href="/pages/programs.html#xlri">XLRI</a></li><li><a href="/pages/programs.html#online">Online MBA</a></li></ul></div>
+    <div class="footer-col"><div class="footer-col-title">Tools</div><ul><li><a href="/pages/eligibility.html">Eligibility checker</a></li><li><a href="/pages/compare.html">Compare programs</a></li><li><a href="/pages/universities.html">All universities</a></li><li><a href="/pages/guide.html">MBA guide</a></li></ul></div>
+    <div class="footer-col"><div class="footer-col-title">Blog</div><ul><li><a href="/blog/">All articles</a></li><li><a href="/blog/executive-mba-vs-regular-mba.html">Exec vs Regular MBA</a></li><li><a href="/blog/iim-executive-mba-eligibility.html">IIM eligibility</a></li><li><a href="/blog/iim-vs-xlri-vs-isb.html">IIM vs XLRI vs ISB</a></li></ul></div>
+    <div class="footer-col"><div class="footer-col-title">Related sites</div><ul><li><a href="https://iimexecmba.in" target="_blank">iimexecmba.in</a></li><li><a href="https://cxoprogram.in" target="_blank">cxoprogram.in</a></li><li><a href="https://hrcourseindia.com" target="_blank">hrcourseindia.com</a></li><li><a href="https://aicourseindia.com" target="_blank">aicourseindia.com</a></li></ul></div>
+  </div>
+  <div class="footer-bottom"><div>© 2026 execmba.in · All rights reserved</div><div class="footer-bottom-links"><a href="/pages/privacy.html">Privacy</a><a href="/pages/disclaimer.html">Disclaimer</a><a href="/pages/sitemap.html">Sitemap</a></div></div>
+</footer>
+<div class="sticky-mobile"><a href="tel:+918080089898" class="sm-call">📞 Call</a><a href="/pages/apply.html" class="sm-apply">Free counselling →</a></div>
+<script src="/assets/main.js"></script>
+<script>
+const programs = [
+  { name:'IIM Ahmedabad — Senior Management Programme', inst:'Indian Institute of Management Ahmedabad', minExp:10, fee:'₹9.5L', duration:'12 months', format:'Weekend + campus', note:'Exclusively for senior professionals (VP, Director, C-suite). One of the most prestigious exec credentials in India.' },
+  { name:'IIM Calcutta — EPBM', inst:'Indian Institute of Management Calcutta', minExp:7, fee:'₹7.8L', duration:'12 months', format:'Blended', note:'Strong analytics and strategy focus. Two campus modules in Kolkata.' },
+  { name:'IIM Bangalore — GMP', inst:'Indian Institute of Management Bangalore', minExp:8, fee:'₹8.2L', duration:'11 months', format:'Online + 1 campus', note:'Intensive 11-month program. Breadth across all management functions.' },
+  { name:'IIM Kozhikode — Executive MBA', inst:'Indian Institute of Management Kozhikode', minExp:5, fee:'₹6.5L', duration:'18 months', format:'Blended', note:'Most accessible IIM program for mid-career professionals. Strong alumni outcomes.' },
+  { name:'IIM Lucknow — EMP', inst:'Indian Institute of Management Lucknow', minExp:7, fee:'~₹6L', duration:'12 months', format:'Weekend', note:'Weekend format with campus modules in Lucknow.' },
+  { name:'ISB — CXO Programme', inst:'Indian School of Business', minExp:10, fee:'~₹5.5L', duration:'11 months', format:'Online + campus', note:'Designed for senior leaders targeting C-suite transformation.' },
+  { name:'XLRI — Executive MBA (BM or HRM)', inst:'XLRI Jamshedpur', minExp:5, fee:'~₹9L', duration:'15 months', format:'Blended', note:'India\'s top institution for values-based management. Excellent HR and general management programs.' },
+  { name:'SPJIMR — PGPM', inst:'SPJIMR Mumbai', minExp:5, fee:'~₹10L', duration:'15 months', format:'Blended', note:'Strong Mumbai alumni network. NIRF top-10 consistently.' },
+  { name:'MDI Gurgaon — NMP', inst:'MDI Gurgaon', minExp:5, fee:'~₹7L', duration:'15 months', format:'Weekend campus', note:'Best for NCR-based professionals wanting campus experience.' },
+  { name:'IIT Bombay — Technology Management', inst:'IIT Bombay', minExp:3, fee:'₹5.5L', duration:'12 months', format:'Online', note:'Ideal for tech professionals moving into management roles.' },
+  { name:'Online MBA — Finance / HR / Marketing', inst:'UGC-DEB Approved University', minExp:3, fee:'₹2.5–3L', duration:'24 months', format:'Weekend online', note:'Full UGC-recognised MBA degree. Best value for 3–5 year professionals.' },
+];
+function checkEligibility(e) {
+  e.preventDefault();
+  const exp = parseInt(document.getElementById('elig-exp').value);
+  const edu = document.getElementById('elig-edu').value;
+  const emp = document.getElementById('elig-emp').value;
+  const eligible = [], partial = [], none = [];
+  programs.forEach(function(p) {
+    if (exp >= p.minExp) eligible.push(p);
+    else if (exp >= p.minExp - 2) partial.push(p);
+    else none.push(p);
+  });
+  const wrap = document.getElementById('elig-results');
+  const list = document.getElementById('results-list');
+  const headline = document.getElementById('results-headline');
+  headline.textContent = 'You qualify for ' + eligible.length + ' programs' + (partial.length ? ', and are close to ' + partial.length + ' more' : '') + '.';
+  list.innerHTML = '';
+  function renderCard(p, type) {
+    const labels = {match:'Eligible ✓', partial:'Almost eligible', 'no-match':'Below minimum'};
+    const badgeCls = {match:'eligible', partial:'check', 'no-match':'ineligible'};
+    list.innerHTML += '<div class="result-card ' + type + '"><div class="rc-header"><div class="rc-name">' + p.name + '</div><span class="rc-badge ' + badgeCls[type] + '">' + labels[type] + '</span></div><div class="rc-inst">' + p.inst + '</div><div class="rc-details"><div class="rc-detail"><div class="l">Min. exp.</div><div class="v">' + p.minExp + '+ years</div></div><div class="rc-detail"><div class="l">Duration</div><div class="v">' + p.duration + '</div></div><div class="rc-detail"><div class="l">Format</div><div class="v">' + p.format + '</div></div><div class="rc-detail"><div class="l">Approx. fee</div><div class="v">' + p.fee + '</div></div></div><div class="rc-note">' + p.note + '</div></div>';
+  }
+  eligible.forEach(function(p){ renderCard(p,'match'); });
+  partial.forEach(function(p){ renderCard(p,'partial'); });
+  none.forEach(function(p){ renderCard(p,'no-match'); });
+  wrap.style.display = 'block';
+  wrap.scrollIntoView({behavior:'smooth', block:'start'});
+}
+</script>
+</body>
+</html>
