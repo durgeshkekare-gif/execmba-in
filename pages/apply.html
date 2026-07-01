@@ -79,12 +79,12 @@
       <div class="fc-sub">Fill in your details — we call you within 2 hours</div>
       <form onsubmit="submitLead(event,'form-wrap','success-wrap')">
         <div class="form-row">
-          <div class="form-group"><label>First name *</label><input type="text" name="fname" placeholder="Rajesh" required></div>
-          <div class="form-group"><label>Last name *</label><input type="text" name="lname" placeholder="Kumar" required></div>
+          <div class="form-group"><label>First name *</label><input type="text" placeholder="Rajesh" required name="firstName"></div>
+          <div class="form-group"><label>Last name *</label><input type="text" placeholder="Kumar" required name="lastName"></div>
         </div>
-        <div class="form-group"><label>Mobile number *</label><input type="tel" name="phone" placeholder="+91 98765 43210" required></div>
-        <div class="form-group"><label>Email address *</label><input type="email" name="email" placeholder="rajesh@company.com" required></div>
-        <div class="form-group"><label>Current designation</label><input type="text" name="designation" placeholder="Senior Manager / Director"></div>
+        <div class="form-group"><label>Mobile number *</label><input type="tel" placeholder="+91 98765 43210" required name="mobile"></div>
+        <div class="form-group"><label>Email address *</label><input type="email" placeholder="rajesh@company.com" required name="email"></div>
+        <div class="form-group"><label>Current designation</label><input type="text" placeholder="Senior Manager / Director" name="role"></div>
         <div class="form-group"><label>Work experience *</label>
           <select name="experience" required>
             <option value="">Select years</option>
@@ -92,7 +92,7 @@
           </select>
         </div>
         <div class="form-group"><label>Program of interest</label>
-          <select name="program">
+          <select name="experience">
             <option value="">Not sure — need guidance</option>
             <option>IIM Ahmedabad — SMP</option>
             <option>IIM Kozhikode — Executive MBA</option>

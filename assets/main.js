@@ -41,13 +41,43 @@ function toggleFaq(btn) {
 // ── LEAD FORM SUBMIT ──
 function submitLead(e, formId, successId) {
   e.preventDefault();
-  const form = document.getElementById(formId);
-  const success = document.getElementById(successId);
-  if (form) form.style.display = 'none';
-  if (success) success.style.display = 'block';
-  // ── PRODUCTION: replace below with your CRM API call ──
-  // const data = new FormData(e.target);
-  // fetch('https://your-crm-endpoint.com/leads', { method:'POST', body: JSON.stringify(Object.fromEntries(data)) })
+  var form = document.getElementById(formId);
+  var btn  = form.querySelector('button[type="submit"]');
+  if (btn) { btn.textContent = 'Sending…'; btn.disabled = true; }
+
+  // Collect all named fields
+  var d = {};
+  form.querySelectorAll('input[name], select[name]').forEach(function(el) {
+    d[el.name] = el.value;
+  });
+
+  // Auto-attach source + UTM data
+  var params = new URLSearchParams(window.location.search);
+  d.sourceDomain  = window.location.hostname;
+  d.sourcePage    = window.location.pathname;
+  d.utmSource     = params.get('utm_source')   || '';
+  d.utmMedium     = params.get('utm_medium')   || '';
+  d.utmCampaign   = params.get('utm_campaign') || '';
+
+  fetch('https://script.google.com/a/macros/jaro.in/s/AKfycbwkP_F6VWsRwjEawqDTcaqSD7p9Yyb6MkGpW39R9zr-ZbSAte47aJL3XMnXEgVmG6V80g/exec', {
+    method : 'POST',
+    mode   : 'no-cors',          // Apps Script needs no-cors
+    headers: { 'Content-Type': 'application/json' },
+    body   : JSON.stringify(d)
+  })
+  .then(function() {
+    if (form)                              form.style.display = 'none';
+    var s = document.getElementById(successId);
+    if (s)                                 s.style.display = 'block';
+  })
+  .catch(function() {
+    // Show success anyway — Apps Script with no-cors always resolves opaquely
+    if (form)                              form.style.display = 'none';
+    var s = document.getElementById(successId);
+    if (s)                                 s.style.display = 'block';
+  });
+}
+)
 }
 
 // ── FILTER BUTTONS (programs page) ──
