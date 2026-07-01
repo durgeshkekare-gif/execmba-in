@@ -1,24 +1,13 @@
 {
   "cleanUrls": true,
   "trailingSlash": false,
-  "headers": [
+  "rewrites": [
     {
-      "source": "/(.*)",
-      "headers": [
-        {
-          "key": "X-Content-Type-Options",
-          "value": "nosniff"
-        },
-        {
-          "key": "X-Frame-Options",
-          "value": "SAMEORIGIN"
-        },
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=3600"
-        }
-      ]
-    },
+      "source": "/blog",
+      "destination": "/blog/index.html"
+    }
+  ],
+  "headers": [
     {
       "source": "/assets/(.*)",
       "headers": [
@@ -27,12 +16,38 @@
           "value": "public, max-age=86400, immutable"
         }
       ]
+    },
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-store, no-cache"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        }
+      ]
+    },
+    {
+      "source": "/((?!api/).*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600"
+        }
+      ]
     }
   ],
-  "rewrites": [
-    {
-      "source": "/blog",
-      "destination": "/blog/index.html"
+  "functions": {
+    "api/lead.js": {
+      "memory": 512,
+      "maxDuration": 10
     }
-  ]
+  }
 }
