@@ -51,7 +51,7 @@ function submitLead(e, formId, successId) {
     d[el.name] = el.value;
   });
 
-  // Auto-attach source + UTM data
+  // Auto-attach source + UTM tracking
   var params = new URLSearchParams(window.location.search);
   d.sourceDomain  = window.location.hostname;
   d.sourcePage    = window.location.pathname;
@@ -59,22 +59,27 @@ function submitLead(e, formId, successId) {
   d.utmMedium     = params.get('utm_medium')   || '';
   d.utmCampaign   = params.get('utm_campaign') || '';
 
-  fetch('https://script.google.com/a/macros/jaro.in/s/AKfycbwkP_F6VWsRwjEawqDTcaqSD7p9Yyb6MkGpW39R9zr-ZbSAte47aJL3XMnXEgVmG6V80g/exec', {
+  // POST to Vercel serverless function → Google Sheets
+  fetch('/api/lead', {
     method : 'POST',
-    mode   : 'no-cors',          // Apps Script needs no-cors
     headers: { 'Content-Type': 'application/json' },
     body   : JSON.stringify(d)
   })
-  .then(function() {
-    if (form)                              form.style.display = 'none';
+  .then(function(r) { return r.json(); })
+  .then(function(res) {
+    if (form) form.style.display = 'none';
     var s = document.getElementById(successId);
-    if (s)                                 s.style.display = 'block';
+    if (s)   s.style.display = 'block';
+    if (btn) { btn.textContent = 'Request sent'; btn.disabled = false; }
   })
-  .catch(function() {
-    // Show success anyway — Apps Script with no-cors always resolves opaquely
-    if (form)                              form.style.display = 'none';
+  .catch(function(err) {
+    // Show success to user even on network error
+    // Log to console for debugging
+    console.error('Lead capture error:', err);
+    if (form) form.style.display = 'none';
     var s = document.getElementById(successId);
-    if (s)                                 s.style.display = 'block';
+    if (s)   s.style.display = 'block';
+    if (btn) { btn.textContent = 'Request sent'; btn.disabled = false; }
   });
 }
 )

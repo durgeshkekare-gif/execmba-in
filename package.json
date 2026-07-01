@@ -1,0 +1,8 @@
+{
+  "name": "execmba-in",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "googleapis": "^140.0.0"
+  }
+}
