@@ -41,17 +41,25 @@ function toggleFaq(btn) {
 // ── LEAD FORM SUBMIT ──
 function submitLead(e, formId, successId) {
   e.preventDefault();
-  var form = document.getElementById(formId);
-  var btn  = form.querySelector('button[type="submit"]');
-  if (btn) { btn.textContent = 'Sending…'; btn.disabled = true; }
+  console.log('[Lead] submitLead called formId=' + formId + ' successId=' + successId);
 
-  // Collect all named fields
+  var wrapper = document.getElementById(formId);
+  var btn = wrapper ? wrapper.querySelector('button[type="submit"]') : null;
+
+  console.log('[Lead] wrapper found:', wrapper ? 'YES id=' + wrapper.id : 'NO - NULL');
+
+  if (btn) { btn.textContent = 'Sending...'; btn.disabled = true; }
+
+  // Collect fields
   var d = {};
-  form.querySelectorAll('input[name], select[name]').forEach(function(el) {
-    d[el.name] = el.value;
-  });
+  if (wrapper) {
+    wrapper.querySelectorAll('input[name], select[name]').forEach(function(el) {
+      d[el.name] = el.value;
+      console.log('[Lead] field:', el.name, '=', el.value);
+    });
+  }
 
-  // Auto-attach source + UTM tracking
+  // Source tracking
   var params = new URLSearchParams(window.location.search);
   d.sourceDomain  = window.location.hostname;
   d.sourcePage    = window.location.pathname;
@@ -59,34 +67,36 @@ function submitLead(e, formId, successId) {
   d.utmMedium     = params.get('utm_medium')   || '';
   d.utmCampaign   = params.get('utm_campaign') || '';
 
-  // POST to Vercel serverless function → Google Sheets
+  console.log('[Lead] Posting data:', JSON.stringify(d));
+
   fetch('/api/lead', {
     method : 'POST',
     headers: { 'Content-Type': 'application/json' },
     body   : JSON.stringify(d)
   })
   .then(function(r) {
-    if (!r.ok) {
-      return r.json().then(function(errData) {
-        throw new Error(errData.detail || errData.error || 'Server error ' + r.status);
-      });
-    }
-    return r.json();
+    console.log('[Lead] HTTP status:', r.status);
+    return r.text().then(function(txt) {
+      console.log('[Lead] Response body:', txt);
+      if (!r.ok) throw new Error('HTTP ' + r.status + ': ' + txt);
+      return txt;
+    });
   })
-  .then(function(res) {
-    if (form) form.style.display = 'none';
+  .then(function() {
+    console.log('[Lead] Success - showing confirmation');
+    if (wrapper) wrapper.style.display = 'none';
     var s = document.getElementById(successId);
-    if (s)   s.style.display = 'block';
+    console.log('[Lead] success div:', s ? 'FOUND id=' + s.id : 'NOT FOUND');
+    if (s) s.style.display = 'block';
     if (btn) { btn.textContent = 'Done'; btn.disabled = false; }
   })
   .catch(function(err) {
-    console.error('Lead capture error:', err);
+    console.error('[Lead] ERROR:', err.message);
     if (btn) { btn.textContent = 'Submit'; btn.disabled = false; }
-    alert('Something went wrong: ' + err.message + '
-
-Please call us directly at +91 80800 89898');
+    alert('Error: ' + err.message);
   });
 }
+
 )
 }
 
