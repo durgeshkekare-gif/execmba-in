@@ -1,65 +1,107 @@
-/* execmba.in — shared JS */
-
-// ── NAV HAMBURGER ──
+/* execmba-in — shared JS */
 document.addEventListener('DOMContentLoaded', function () {
-  const ham = document.querySelector('.nav-hamburger');
-  const links = document.querySelector('.nav-links');
+
+  // NAV HAMBURGER
+  var ham = document.querySelector('.nav-ham, .nav-hamburger');
+  var links = document.querySelector('.nav-links');
   if (ham && links) {
     ham.addEventListener('click', function () {
-      const open = links.classList.toggle('nav-open');
-      ham.setAttribute('aria-expanded', open);
-      if (open) {
-        Object.assign(links.style, {
-          display: 'flex', flexDirection: 'column',
-          position: 'absolute', top: '64px', left: '0', right: '0',
-          background: '#0D1B2A', padding: '1rem 5%', gap: '1rem', zIndex: '199',
-          borderBottom: '1px solid rgba(201,168,76,0.15)'
-        });
-      } else {
-        links.style.display = 'none';
+      var open = links.classList.toggle('nav-open');
+      Object.assign(links.style, open ? {
+        display: 'flex', flexDirection: 'column', position: 'absolute',
+        top: '62px', left: '0', right: '0', background: '#0D1B2A',
+        padding: '1rem 4%', gap: '.75rem', zIndex: '298',
+        borderBottom: '1px solid rgba(255,255,255,.08)'
+      } : { display: 'none' });
+    });
+  }
+
+  // ACTIVE NAV LINK
+  var path = window.location.pathname;
+  document.querySelectorAll('.nav-links a').forEach(function (a) {
+    var href = a.getAttribute('href') || '';
+    if (href !== '/' && href !== '' && path.startsWith(href.replace(/\/index\.html$/, ''))) {
+      a.classList.add('active');
+      a.classList.add('on');
+    }
+  });
+
+  // NAV SEARCH (enter key)
+  var ns = document.getElementById('nav-search');
+  if (ns) {
+    ns.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' && this.value.trim()) {
+        window.location.href = '/universities/?q=' + encodeURIComponent(this.value.trim());
       }
     });
   }
 
-  // Mark active nav link
-  const path = window.location.pathname;
-  document.querySelectorAll('.nav-links a').forEach(function (a) {
-    if (a.getAttribute('href') && path.includes(a.getAttribute('href').replace('/index.html', '').replace('.html', ''))) {
-      a.classList.add('active');
-    }
-  });
 });
 
-// ── FAQ ACCORDION ──
+// FAQ TOGGLE
 function toggleFaq(btn) {
-  const item = btn.closest('.faq-item');
-  const isOpen = item.classList.contains('open');
-  document.querySelectorAll('.faq-item.open').forEach(function (i) { i.classList.remove('open'); });
-  if (!isOpen) item.classList.add('open');
+  var item = btn.closest('.faq-item');
+  var isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(function (i) {
+    i.classList.remove('open');
+  });
+  if (!isOpen) {
+    item.classList.add('open');
+  }
 }
 
-// ── LEAD FORM SUBMIT ──
+// FILTER TABLE
+function filterTable(type, btn, tableId) {
+  document.querySelectorAll('.fpill').forEach(function (b) { b.classList.remove('on'); });
+  btn.classList.add('on');
+  var rows = document.querySelectorAll((tableId || '#main-tbl') + ' tbody tr');
+  rows.forEach(function (r) {
+    var show = type === 'all' || (r.dataset.type || '').includes(type) || (r.dataset.tag || '').includes(type);
+    r.style.display = show ? '' : 'none';
+  });
+}
+
+// FILTER CARDS
+function filterCards(type, btn) {
+  document.querySelectorAll('.fpill').forEach(function (b) { b.classList.remove('on'); });
+  btn.classList.add('on');
+  document.querySelectorAll('[data-card]').forEach(function (c) {
+    var show = type === 'all' || (c.dataset.type || '').includes(type) || (c.dataset.tag || '').includes(type);
+    c.style.display = show ? '' : 'none';
+  });
+}
+
+// LIVE SEARCH
+function liveSearch(q, scope) {
+  var els = document.querySelectorAll(scope || '[data-search]');
+  els.forEach(function (el) {
+    var t = (el.dataset.search || '').toLowerCase();
+    el.style.display = (!q || t.includes(q.toLowerCase())) ? '' : 'none';
+  });
+}
+
+// LEAD FORM SUBMIT — posts to /api/lead serverless function → Google Sheets
 function submitLead(e, formId, successId) {
   e.preventDefault();
-  console.log('[Lead] submitLead called formId=' + formId + ' successId=' + successId);
 
   var wrapper = document.getElementById(formId);
-  var btn = wrapper ? wrapper.querySelector('button[type="submit"]') : null;
-
-  console.log('[Lead] wrapper found:', wrapper ? 'YES id=' + wrapper.id : 'NO - NULL');
-
-  if (btn) { btn.textContent = 'Sending...'; btn.disabled = true; }
-
-  // Collect fields
-  var d = {};
-  if (wrapper) {
-    wrapper.querySelectorAll('input[name], select[name]').forEach(function(el) {
-      d[el.name] = el.value;
-      console.log('[Lead] field:', el.name, '=', el.value);
-    });
+  if (!wrapper) {
+    console.error('[Lead] Element not found: ' + formId);
+    return;
+  }
+  var btn = wrapper.querySelector('button[type="submit"]');
+  if (btn) {
+    btn.textContent = 'Sending...';
+    btn.disabled = true;
   }
 
-  // Source tracking
+  // Collect all named form fields
+  var d = {};
+  wrapper.querySelectorAll('input[name], select[name]').forEach(function (el) {
+    d[el.name] = el.value;
+  });
+
+  // Source and UTM tracking
   var params = new URLSearchParams(window.location.search);
   d.sourceDomain  = window.location.hostname;
   d.sourcePage    = window.location.pathname;
@@ -67,33 +109,28 @@ function submitLead(e, formId, successId) {
   d.utmMedium     = params.get('utm_medium')   || '';
   d.utmCampaign   = params.get('utm_campaign') || '';
 
-  console.log('[Lead] Posting data:', JSON.stringify(d));
-
+  // POST to Vercel serverless function
   fetch('/api/lead', {
-    method : 'POST',
+    method:  'POST',
     headers: { 'Content-Type': 'application/json' },
-    body   : JSON.stringify(d)
+    body:    JSON.stringify(d)
   })
-  .then(function(r) {
-    console.log('[Lead] HTTP status:', r.status);
-    return r.text().then(function(txt) {
-      console.log('[Lead] Response body:', txt);
+  .then(function (r) {
+    return r.text().then(function (txt) {
       if (!r.ok) throw new Error('HTTP ' + r.status + ': ' + txt);
       return txt;
     });
   })
-  .then(function() {
-    console.log('[Lead] Success - showing confirmation');
-    if (wrapper) wrapper.style.display = 'none';
+  .then(function () {
+    wrapper.style.display = 'none';
     var s = document.getElementById(successId);
-    console.log('[Lead] success div:', s ? 'FOUND id=' + s.id : 'NOT FOUND');
     if (s) s.style.display = 'block';
     if (btn) { btn.textContent = 'Done'; btn.disabled = false; }
   })
-  .catch(function(err) {
-    console.error('[Lead] ERROR:', err.message);
+  .catch(function (err) {
+    console.error('[Lead] error:', err.message);
+    alert('Something went wrong: ' + err.message + '\n\nPlease call us: +91 80800 89898');
     if (btn) { btn.textContent = 'Submit'; btn.disabled = false; }
-    alert('Error: ' + err.message);
   });
 }
 
