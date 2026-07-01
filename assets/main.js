@@ -97,8 +97,6 @@ function submitLead(e, formId, successId) {
   });
 }
 
-)
-}
 
 // ── FILTER BUTTONS (programs page) ──
 function setFilter(type, val, btn, groupId) {
