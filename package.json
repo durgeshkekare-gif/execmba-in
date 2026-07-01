@@ -7,8 +7,5 @@
   },
   "engines": {
     "node": "24.x"
-  },
-  "scripts": {
-    "build": "echo 'Static site \u2014 no build step'"
   }
 }

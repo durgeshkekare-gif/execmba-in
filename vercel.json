@@ -1,12 +1,8 @@
 {
-  "cleanUrls": true,
-  "trailingSlash": false,
-  "rewrites": [
-    {
-      "source": "/blog",
-      "destination": "/blog/index.html"
-    }
-  ],
+  "outputDirectory": ".",
+  "buildCommand": null,
+  "installCommand": "npm install",
+  "framework": null,
   "headers": [
     {
       "source": "/assets/(.*)",
@@ -23,10 +19,6 @@
         {
           "key": "Cache-Control",
           "value": "no-store, no-cache"
-        },
-        {
-          "key": "X-Content-Type-Options",
-          "value": "nosniff"
         }
       ]
     },
@@ -44,10 +36,18 @@
       ]
     }
   ],
+  "rewrites": [
+    {
+      "source": "/blog",
+      "destination": "/blog/index.html"
+    }
+  ],
   "functions": {
     "api/lead.js": {
       "memory": 512,
       "maxDuration": 10
     }
-  }
+  },
+  "cleanUrls": true,
+  "trailingSlash": false
 }
