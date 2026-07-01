@@ -65,21 +65,26 @@ function submitLead(e, formId, successId) {
     headers: { 'Content-Type': 'application/json' },
     body   : JSON.stringify(d)
   })
-  .then(function(r) { return r.json(); })
+  .then(function(r) {
+    if (!r.ok) {
+      return r.json().then(function(errData) {
+        throw new Error(errData.detail || errData.error || 'Server error ' + r.status);
+      });
+    }
+    return r.json();
+  })
   .then(function(res) {
     if (form) form.style.display = 'none';
     var s = document.getElementById(successId);
     if (s)   s.style.display = 'block';
-    if (btn) { btn.textContent = 'Request sent'; btn.disabled = false; }
+    if (btn) { btn.textContent = 'Done'; btn.disabled = false; }
   })
   .catch(function(err) {
-    // Show success to user even on network error
-    // Log to console for debugging
     console.error('Lead capture error:', err);
-    if (form) form.style.display = 'none';
-    var s = document.getElementById(successId);
-    if (s)   s.style.display = 'block';
-    if (btn) { btn.textContent = 'Request sent'; btn.disabled = false; }
+    if (btn) { btn.textContent = 'Submit'; btn.disabled = false; }
+    alert('Something went wrong: ' + err.message + '
+
+Please call us directly at +91 80800 89898');
   });
 }
 )
