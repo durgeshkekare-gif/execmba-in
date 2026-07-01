@@ -86,7 +86,6 @@ function submitLead(e, formId, successId) {
 
   var wrapper = document.getElementById(formId);
   if (!wrapper) {
-    console.error('[Lead] Element not found: ' + formId);
     return;
   }
   var btn = wrapper.querySelector('button[type="submit"]');
@@ -128,12 +127,10 @@ function submitLead(e, formId, successId) {
     if (btn) { btn.textContent = 'Done'; btn.disabled = false; }
   })
   .catch(function (err) {
-    console.error('[Lead] error:', err.message);
     alert('Something went wrong: ' + err.message + '\n\nPlease call us: +91 80800 89898');
     if (btn) { btn.textContent = 'Submit'; btn.disabled = false; }
   });
 }
-
 
 // ── FILTER BUTTONS (programs page) ──
 function setFilter(type, val, btn, groupId) {
