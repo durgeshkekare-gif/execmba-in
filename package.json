@@ -6,7 +6,7 @@
     "googleapis": "^140.0.0"
   },
   "engines": {
-    "node": "18.x"
+    "node": "24.x"
   },
   "scripts": {
     "build": "echo 'Static site \u2014 no build step'"
