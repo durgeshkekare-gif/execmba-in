@@ -51,7 +51,10 @@ module.exports = async function handler(req, res) {
       data.utmMedium     || "",                                       // N UTM Medium
       data.utmCampaign   || "",                                       // O UTM Campaign
       "New",                                                          // P Status
-      data.message       || "",                                       // Q Notes
+      data.message       || "",                                       // Q  Notes
+      data.consentContact  === "on" ? "Yes" : "No",                   // R  Consent: Contact
+      data.consentData     === "on" ? "Yes" : "No",                   // S  Consent: Privacy Policy
+      data.consentMarketing === "on" ? "Yes" : "No",                  // T  Consent: Marketing
     ];
 
     await sheets.spreadsheets.values.append({

@@ -114,6 +114,39 @@
         <div class="form-group"><label>Anything specific you'd like help with?</label>
           <textarea name="message" placeholder="e.g. Comparing IIM K vs XLRI, understanding ROI, figuring out which program fits my HR background..."></textarea>
         </div>
+        
+        <!-- CONSENT CHECKBOXES -->
+        <div style="margin-bottom:1rem;padding:.875rem;background:rgba(0,0,0,.03);border-radius:6px;border:1px solid rgba(0,0,0,.08);">
+
+          <label style="display:flex;align-items:flex-start;gap:.55rem;cursor:pointer;margin-bottom:.65rem;">
+            <input type="checkbox" name="consentContact" id="consentContact" required
+              style="width:16px;height:16px;min-width:16px;margin-top:2px;accent-color:#00C896;cursor:pointer;">
+            <span style="font-size:.74rem;color:#374151;line-height:1.65;">
+              <strong style="color:#111827;">I consent to being contacted</strong> — I agree that execmba.in and its counselling partners may contact me by phone, WhatsApp or email regarding educational programs I have enquired about. I understand I can withdraw this consent at any time. <span style="color:#DC2626;">*</span>
+            </span>
+          </label>
+
+          <label style="display:flex;align-items:flex-start;gap:.55rem;cursor:pointer;margin-bottom:.65rem;">
+            <input type="checkbox" name="consentData" id="consentData" required
+              style="width:16px;height:16px;min-width:16px;margin-top:2px;accent-color:#00C896;cursor:pointer;">
+            <span style="font-size:.74rem;color:#374151;line-height:1.65;">
+              <strong style="color:#111827;">I agree to the Privacy Policy</strong> — I have read and agree to the <a href="/pages/privacy.html" target="_blank" style="color:#2563EB;text-decoration:underline;">Privacy Policy</a>. I understand my personal data will be used to match me with suitable education programs and will not be sold to third parties. <span style="color:#DC2626;">*</span>
+            </span>
+          </label>
+
+          <label style="display:flex;align-items:flex-start;gap:.55rem;cursor:pointer;">
+            <input type="checkbox" name="consentMarketing" id="consentMarketing"
+              style="width:16px;height:16px;min-width:16px;margin-top:2px;accent-color:#00C896;cursor:pointer;">
+            <span style="font-size:.74rem;color:#374151;line-height:1.65;">
+              <strong style="color:#111827;">Marketing communications</strong> (optional) — I am happy to receive updates about new programs, admission deadlines and educational content by email or WhatsApp.
+            </span>
+          </label>
+
+        </div>
+        <p style="font-size:.67rem;color:#9CA3AF;line-height:1.6;margin-bottom:.75rem;">
+          Fields marked <span style="color:#DC2626;">*</span> are required. By submitting this form you confirm you are 18 years or older. Your data is processed in accordance with India's Digital Personal Data Protection Act 2023 and applicable privacy laws.
+        </p>
+        <!-- END CONSENT -->
         <button type="submit" class="form-submit">Request free guidance →</button>
         <p class="form-disclaimer">Your details are used only to contact you about program guidance. No spam, no data selling.</p>
       </form>
