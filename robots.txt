@@ -1,5 +1,25 @@
 User-agent: *
 Allow: /
-Disallow: /assets/
 
+# Block utility pages from indexing
+Disallow: /api/
+Disallow: /404.html
+
+# Allow all major crawlers explicitly
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+# Sitemap location
 Sitemap: https://execmba.in/sitemap.xml
+
+# Crawl delay (optional — be polite)
+Crawl-delay: 1
