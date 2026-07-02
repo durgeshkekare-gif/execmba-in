@@ -49,5 +49,12 @@
     }
   },
   "cleanUrls": true,
-  "trailingSlash": false
+  "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "https://www.execmba.in/:path*",
+      "destination": "https://execmba.in/:path*",
+      "permanent": true
+    }
+  ]
 }
