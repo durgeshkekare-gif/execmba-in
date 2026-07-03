@@ -23,4 +23,4 @@ Sitemap: https://execmba.in/sitemap.xml
 
 # Crawl delay (optional — be polite)
 Crawl-delay: 1
-# Updated: 1782994058
+# Updated: 2026-07-03 04:48 IST
