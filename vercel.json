@@ -52,7 +52,13 @@
   "trailingSlash": false,
   "redirects": [
     {
-      "source": "https://www.execmba.in/:path*",
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.execmba.in"
+        }
+      ],
       "destination": "https://execmba.in/:path*",
       "permanent": true
     }
