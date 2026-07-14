@@ -383,5 +383,133 @@
 </footer>
 <div class="sticky-mobile"><a href="tel:+919240218482" class="sm-call">&#128222; Call</a><a href="/pages/apply.html" class="sm-apply">Free counselling &rarr;</a></div>
 <script src="/assets/main.js?v=10"></script>
+
+<!-- ── CALL MODAL ─────────────────────────────────────── -->
+<div id="callModal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.55);backdrop-filter:blur(4px);align-items:flex-end;justify-content:center;" onclick="if(event.target===this)closeCallModal()">
+  <div id="callModalBox" style="background:#fff;width:100%;max-width:480px;border-radius:16px 16px 0 0;padding:1.5rem 1.5rem 2rem;transform:translateY(100%);transition:transform .3s cubic-bezier(.32,1.25,.58,1);">
+    <!-- Handle -->
+    <div style="width:36px;height:4px;background:#E2E8F0;border-radius:2px;margin:0 auto .875rem;"></div>
+    <!-- Header -->
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.1rem;">
+      <div>
+        <div style="font-weight:700;font-size:1rem;color:#0F172A;">Talk to a counsellor</div>
+        <div style="font-size:.75rem;color:#94A3B8;margin-top:.1rem;">Free · No spam · 2 min form</div>
+      </div>
+      <button onclick="closeCallModal()" style="background:#F1F5F9;border:none;cursor:pointer;width:32px;height:32px;border-radius:50%;font-size:1rem;color:#64748B;display:flex;align-items:center;justify-content:center;">✕</button>
+    </div>
+    <!-- Form -->
+    <form id="callForm" onsubmit="submitCallForm(event)">
+      <div style="margin-bottom:.875rem;">
+        <label style="font-size:.75rem;font-weight:600;color:#374151;display:block;margin-bottom:.3rem;">Your name <span style="color:#E53E3E;">*</span></label>
+        <input type="text" id="cf_name" placeholder="Rahul Sharma" required
+          style="width:100%;padding:.62rem .75rem;border:1.5px solid #E2E8F0;border-radius:8px;font-size:.875rem;outline:none;box-sizing:border-box;transition:border-color .15s;"
+          onfocus="this.style.borderColor='#E05C00'" onblur="this.style.borderColor='#E2E8F0'">
+      </div>
+      <div style="margin-bottom:.875rem;">
+        <label style="font-size:.75rem;font-weight:600;color:#374151;display:block;margin-bottom:.3rem;">Mobile number <span style="color:#E53E3E;">*</span></label>
+        <input type="tel" id="cf_mobile" placeholder="+91 98765 43210" required
+          style="width:100%;padding:.62rem .75rem;border:1.5px solid #E2E8F0;border-radius:8px;font-size:.875rem;outline:none;box-sizing:border-box;transition:border-color .15s;"
+          onfocus="this.style.borderColor='#E05C00'" onblur="this.style.borderColor='#E2E8F0'">
+      </div>
+      <div style="margin-bottom:.875rem;">
+        <label style="font-size:.75rem;font-weight:600;color:#374151;display:block;margin-bottom:.3rem;">Program interested in</label>
+        <select id="cf_program"
+          style="width:100%;padding:.62rem .75rem;border:1.5px solid #E2E8F0;border-radius:8px;font-size:.875rem;outline:none;box-sizing:border-box;background:#fff;transition:border-color .15s;"
+          onfocus="this.style.borderColor='#E05C00'" onblur="this.style.borderColor='#E2E8F0'">
+          <option value="">Select program (optional)</option>
+          <option value="IIM Ahmedabad AGMP">IIM Ahmedabad AGMP</option>
+<option value="IIM Kozhikode New Age Management">IIM Kozhikode New Age Management</option>
+<option value="XLRI CXO Leadership">XLRI CXO Leadership</option>
+<option value="IIM Indore VUCA Leadership">IIM Indore VUCA Leadership</option>
+<option value="IIM Nagpur Blended MBA">IIM Nagpur Blended MBA</option>
+<option value="Other">Other</option>
+        </select>
+      </div>
+      <!-- Submit -->
+      <button type="submit" id="callFormBtn"
+        style="width:100%;background:#E05C00;color:#fff;padding:.8rem;border-radius:10px;font-weight:700;font-size:.9rem;border:none;cursor:pointer;margin-top:.25rem;transition:opacity .2s;display:flex;align-items:center;justify-content:center;gap:.5rem;">
+        <span>📞</span><span>Call me now</span>
+      </button>
+      <p style="font-size:.68rem;color:#94A3B8;text-align:center;margin-top:.6rem;">By submitting you consent to be contacted. <a href="/privacy.html" style="color:#E05C00;">Privacy policy</a>.</p>
+    </form>
+    <!-- Success state (hidden by default) -->
+    <div id="callSuccess" style="display:none;text-align:center;padding:1rem 0 .5rem;">
+      <div style="font-size:2.5rem;margin-bottom:.5rem;">✅</div>
+      <div style="font-weight:700;font-size:1rem;color:#0F172A;margin-bottom:.25rem;">Details received!</div>
+      <div style="font-size:.8rem;color:#64748B;margin-bottom:1.5rem;">Our counsellor will call you shortly. Or call us directly:</div>
+      <a id="callNowLink" href="tel:+919240218482"
+        style="display:flex;align-items:center;justify-content:center;gap:.6rem;background:#E05C00;color:#fff;padding:.875rem;border-radius:10px;font-weight:700;font-size:1rem;text-decoration:none;letter-spacing:.02em;">
+        <span>📞</span><span>+91 92402 18482</span>
+      </a>
+      <p style="font-size:.7rem;color:#94A3B8;margin-top:.75rem;">Tap to dial · Available Mon–Sat 9am–8pm</p>
+    </div>
+  </div>
+</div>
+
+<script>
+// Open modal
+function openCallModal() {
+  var m = document.getElementById('callModal');
+  m.style.display = 'flex';
+  setTimeout(function(){
+    document.getElementById('callModalBox').style.transform = 'translateY(0)';
+  }, 10);
+  document.body.style.overflow = 'hidden';
+}
+
+// Close modal
+function closeCallModal() {
+  document.getElementById('callModalBox').style.transform = 'translateY(100%)';
+  setTimeout(function(){
+    document.getElementById('callModal').style.display = 'none';
+    document.body.style.overflow = '';
+    // Reset form for next open
+    document.getElementById('callForm').style.display = 'block';
+    document.getElementById('callSuccess').style.display = 'none';
+    document.getElementById('callForm').reset();
+  }, 300);
+}
+
+// Submit handler
+function submitCallForm(e) {
+  e.preventDefault();
+  var btn = document.getElementById('callFormBtn');
+  btn.innerHTML = '<span>⏳</span><span>Submitting...</span>';
+  btn.disabled = true;
+
+  var name  = document.getElementById('cf_name').value.trim();
+  var mobile= document.getElementById('cf_mobile').value.trim();
+  var prog  = document.getElementById('cf_program').value;
+
+  // Send to lead API
+  fetch('/api/lead', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({
+      firstName: name.split(' ')[0],
+      lastName:  name.split(' ').slice(1).join(' '),
+      mobile:    mobile,
+      program:   prog,
+      sourceDomain: 'execmba.in',
+      sourceEvent:  'call_modal',
+      consentContact: true,
+      consentPrivacy: true,
+    })
+  }).catch(function(){});  // fail silently — still show success
+
+  // Show success + dial prompt
+  setTimeout(function() {
+    document.getElementById('callForm').style.display = 'none';
+    document.getElementById('callSuccess').style.display = 'block';
+    // Auto-trigger dialer after 1.2s
+    setTimeout(function(){
+      window.location.href = 'tel:+919240218482';
+    }, 1200);
+  }, 600);
+}
+
+// Prevent number showing on hover — handled by replacing href with onclick
+</script>
+
 </body>
 </html>
