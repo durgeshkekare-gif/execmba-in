@@ -53,5 +53,18 @@
     }
   },
   "cleanUrls": true,
-  "trailingSlash": false
+  "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.execmba.in"
+        }
+      ],
+      "destination": "https://execmba.in/:path*",
+      "permanent": true
+    }
+  ]
 }
